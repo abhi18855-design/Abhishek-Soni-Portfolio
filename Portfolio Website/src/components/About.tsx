@@ -1,0 +1,7 @@
+import { useState } from 'react';
+import { profile } from '../data/profile';
+export function About() {
+  const keys = Object.keys(profile.skills) as (keyof typeof profile.skills)[];
+  const [active, setActive] = useState(keys[0]);
+  return <section id="about" className="section about"><div className="section-kicker mono"><span>04 / THE PERSON BEHIND THE FRAME</span><span>ABHISHEK SONI</span></div><div className="about-layout"><h2>AI creative<br />producer <em>&</em><br />visual<br /><em>storyteller.</em></h2><div className="about-copy"><p className="about-lead">{profile.introduction}</p><p>{profile.biography}</p><div className="signature">Abhishek.</div><div className="skills"><div role="tablist" aria-label="Skill categories">{keys.map((key, i) => <button role="tab" key={key} id={`tab-${key}`} aria-selected={active === key} aria-controls={`skills-${key}`} tabIndex={active === key ? 0 : -1} onClick={() => setActive(key)} onKeyDown={e => { let next = i; if (e.key === 'ArrowRight') next = (i + 1) % keys.length; else if (e.key === 'ArrowLeft') next = (i + keys.length - 1) % keys.length; else if (e.key === 'Home') next = 0; else if (e.key === 'End') next = keys.length - 1; else return; e.preventDefault(); setActive(keys[next]); document.getElementById(`tab-${keys[next]}`)?.focus(); }}>{key}</button>)}</div><div role="tabpanel" id={`skills-${active}`} aria-labelledby={`tab-${active}`} tabIndex={0}>{profile.skills[active].map(skill => <span key={skill}>{skill}</span>)}</div></div></div></div></section>;
+}
